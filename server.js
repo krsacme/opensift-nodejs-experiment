@@ -4,6 +4,8 @@ var fs      = require('fs');
 var app     = express();
 var eps     = require('ejs');
 
+app.use(express.static('views'));
+
 app.engine('html', require('ejs').renderFile);
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
