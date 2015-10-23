@@ -58,6 +58,10 @@ var initDb = function(callback) {
     dbDetails.type = 'MongoDB';
 
     console.log("Connected to MongoDB at: " + mongoURL);
+    db1.listCollections().toArray(function(err, items) {
+      console.log("Collections List Count: " + items.length)
+      console.log("Collections List Items: " + items)
+    })
   });
 };
 
@@ -83,6 +87,25 @@ app.get('/pagecount', function (req, res) {
     res.send('{ pageCount: -1 }');
   }
 });
+
+app.get('/page', function (req, res) {
+  if (db) {
+    db.collection('counts').find({}, function(err, cursor) {
+      console.log('counts collection found')
+      var cnt = 0;
+      cursor.forEach(function(doc) {
+        cnt = cnt + 1;
+        console.log(doc)
+      }, function(err) {
+        console.log("counts collection length: " + cnt)
+        res.send('{ pageCount: ' + cnt +'}');
+      });
+    })
+  } else { 
+    res.send('DB not intialized.');
+  }
+});
+
 
 // error handling
 app.use(function(err, req, res, next){
