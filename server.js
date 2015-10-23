@@ -81,8 +81,8 @@ app.get('/', function (req, res) {
   }
 });
 
-app.get('/index.htm', function (req, res) {
-  console.log('index.htm page request received')
+app.post('/count', function (req, res) {
+  console.log('count')
   if (db) {
     var col = db.collection('counts');
     // Create a document with request IP and current time of request
@@ -91,13 +91,13 @@ app.get('/index.htm', function (req, res) {
         console.log('error in insert - ' + err.message)
       }
     });
-    console.log('index.htm page request - Access count increased')
+    console.log('Access count increased')
     col.count(function(err, count){
-      res.send("index.html request received")
+      res.send("done")
     });
   } else {
-    console.log('index.htm page request - DB not intialized ')
-    res.send("index.html request received")
+    console.log('DB not intialized ')
+    res.send("DB not intialized ")
   }
 });
 

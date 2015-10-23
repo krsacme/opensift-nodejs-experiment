@@ -90,6 +90,11 @@
             if (evt.keyCode == 13)
               $('#comments-sumbit').click()
           })
+          $.ajax({
+            type: 'POST',
+            url: '/count',
+            date: 'viewed'
+          })
         })
         function commentsClicked() {
           if ($('#comments').val()) {
