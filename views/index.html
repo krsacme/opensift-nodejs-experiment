@@ -109,7 +109,7 @@
             var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }
             for (i in data) {
               var d = new Date(data[i].date)
-              $('#last-comments').append('<div class="alert alert-info" role="alert">' + 
+              $('#last-comments').prepend('<div class="alert alert-info" role="alert">' + 
                 data[i].comment + 
                 '<br>' + 
                 d.toLocaleDateString('en-US', options) + 
