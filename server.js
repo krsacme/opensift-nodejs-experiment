@@ -3,9 +3,10 @@ var express = require('express');
 var fs      = require('fs');
 var app     = express();
 var eps     = require('ejs');
+var bodyParser = require('body-parser');
 
 app.use(express.static('views'));
-
+app.use(bodyParser());
 app.engine('html', require('ejs').renderFile);
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
@@ -86,6 +87,35 @@ app.post('/count', function (req, res) {
   }
 });
 
+app.post('/comment', function(req, res) {
+  if (db) {
+    var col = db.collection('comments');
+    db.insert({comment: req.body.comment, date: Date.now(), ip: req.ip})
+    res.end('done')
+  } else {
+    res.end('DB not intialized')
+  }
+})
+
+app.get('/comment', function(req, res) {
+  if (db) {
+    var col = db.collection('comments');
+    var options = {
+      "limit": 10,
+      "sort": ["date", 'desc']
+    }
+    db.find({}, options, function(err, cursor) {
+      var arr = [];
+      cursor.forEach(function(item) {
+        arr.push(item)
+      }, function() {
+        res.json(arr)
+      })
+    })
+  } else {
+    res.end('DB not intialized')
+  }
+})
 
 app.get('/pagecount', function (req, res) {
   if (db) {
