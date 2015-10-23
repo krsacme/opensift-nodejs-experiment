@@ -81,6 +81,27 @@ app.get('/', function (req, res) {
   }
 });
 
+app.get('/index.htm', function (req, res) {
+  console.log('index.htm page request received')
+  if (db) {
+    var col = db.collection('counts');
+    // Create a document with request IP and current time of request
+    col.insert({ip: req.ip, date: Date.now()}, function(err) {
+      if (err) {
+        console.log('error in insert - ' + err.message)
+      }
+    });
+    console.log('index.htm page request - Access count increased')
+    col.count(function(err, count){
+      res.send("index.html request received")
+    });
+  } else {
+    console.log('index.htm page request - DB not intialized ')
+    res.send("index.html request received")
+  }
+});
+
+
 app.get('/pagecount', function (req, res) {
   console.log('pagecount request received')
   if (db) {
