@@ -40,7 +40,6 @@ var db = null;
 var dbDetails = new Object();
 
 var initDb = function(callback) {
-  console.log('initDb: mongoURL = ' + mongoURL)
   if (mongoURL == null) return;
 
   var mongodb = require('mongodb');  
@@ -62,21 +61,14 @@ var initDb = function(callback) {
 };
 
 app.get('/', function (req, res) {
-  console.log('index page request received')
   if (db) {
     var col = db.collection('counts');
     // Create a document with request IP and current time of request
-    col.insert({ip: req.ip, date: Date.now()}, function(err) {
-      if (err) {
-        console.log('error in insert - ' + err.message)
-      }
-    });
-    console.log('index page request - Access count increased')
+    col.insert({ip: req.ip, date: Date.now()});
     col.count(function(err, count){
       res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
     });
   } else {
-    console.log('index page request - DB not intialized ')
     res.render('index.html', { pageCountMessage : null});
   }
 });
@@ -91,7 +83,6 @@ app.post('/count', function (req, res) {
         console.log('error in insert - ' + err.message)
       }
     });
-    console.log('Access count increased')
     col.count(function(err, count){
       res.send("done")
     });
@@ -103,7 +94,6 @@ app.post('/count', function (req, res) {
 
 
 app.get('/pagecount', function (req, res) {
-  console.log('pagecount request received')
   if (db) {
     db.collection('counts').count(function(err, count ){
       res.send('{ pageCount: ' + count +'}');
@@ -112,26 +102,6 @@ app.get('/pagecount', function (req, res) {
     res.send('{ pageCount: -1 }');
   }
 });
-
-app.get('/page', function (req, res) {
-  console.log('page request received')
-  if (db) {
-    db.collection('counts').find({}, function(err, cursor) {
-      console.log('counts collection found')
-      var cnt = 0;
-      cursor.forEach(function(doc) {
-        cnt = cnt + 1;
-        console.log(doc)
-      }, function(err) {
-        console.log("counts collection length: " + cnt)
-        res.send('{ pageCount: ' + cnt +'}');
-      });
-    })
-  } else { 
-    res.send('DB not intialized.');
-  }
-});
-
 
 // error handling
 app.use(function(err, req, res, next){
