@@ -58,10 +58,6 @@ var initDb = function(callback) {
     dbDetails.type = 'MongoDB';
 
     console.log("Connected to MongoDB at: " + mongoURL);
-    db.listCollections().toArray(function(err, items) {
-      console.log("Collections List Count: " + items.length)
-      console.log("Collections List Items: " + items)
-    })
   });
 };
 
@@ -86,6 +82,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/pagecount', function (req, res) {
+  console.log('pagecount request received')
   if (db) {
     db.collection('counts').count(function(err, count ){
       res.send('{ pageCount: ' + count +'}');
@@ -96,6 +93,7 @@ app.get('/pagecount', function (req, res) {
 });
 
 app.get('/page', function (req, res) {
+  console.log('page request received')
   if (db) {
     db.collection('counts').find({}, function(err, cursor) {
       console.log('counts collection found')
