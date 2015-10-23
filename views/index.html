@@ -110,6 +110,13 @@
             var d = new Date();
             var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }
             $('#last-comments').prepend('<div class="alert alert-info" role="alert">' + $('#comments').val() + '<br>' + d.toLocaleDateString('en-US', options) + '</div>')
+            var obj = {}
+            obj['comment'] = $('#comments').val();
+            $.ajax({
+              type: 'POST',
+              url: '/comment',
+              data: obj
+            })
             $('#comments').val('')
           }
         }
