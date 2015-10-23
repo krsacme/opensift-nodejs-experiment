@@ -66,6 +66,7 @@ var initDb = function(callback) {
 };
 
 app.get('/', function (req, res) {
+  console.log('index page request received')
   if (db) {
     var col = db.collection('counts');
     // Create a document with request IP and current time of request
