@@ -60,20 +60,27 @@ var initDb = function(callback) {
     console.log("Connected to MongoDB at: " + mongoURL);
     db.listCollections().toArray(function(err, items) {
       console.log("Collections List Count: " + items.length)
-      console.log("Collections List Items: " + items)
+      console.log("Collections List Items: " + JSON.parse(items))
     })
   });
 };
 
 app.get('/', function (req, res) {
+
   if (db) {
     var col = db.collection('counts');
     // Create a document with request IP and current time of request
-    col.insert({ip: req.ip, date: Date.now()});
+    col.insert({ip: req.ip, date: Date.now()}, function(err) {
+      if (err) {
+        console.log('error in insert - ' + err.message)
+      }
+    });
+    console.log('index page request - Access count increased')
     col.count(function(err, count){
       res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
     });
   } else {
+    console.log('index page request - DB not intialized ')
     res.render('index.html', { pageCountMessage : null});
   }
 });
