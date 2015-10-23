@@ -60,13 +60,12 @@ var initDb = function(callback) {
     console.log("Connected to MongoDB at: " + mongoURL);
     db.listCollections().toArray(function(err, items) {
       console.log("Collections List Count: " + items.length)
-      console.log("Collections List Items: " + JSON.parse(items))
+      console.log("Collections List Items: " + items)
     })
   });
 };
 
 app.get('/', function (req, res) {
-
   if (db) {
     var col = db.collection('counts');
     // Create a document with request IP and current time of request
