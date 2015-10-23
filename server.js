@@ -74,21 +74,15 @@ app.get('/', function (req, res) {
 });
 
 app.post('/count', function (req, res) {
-  console.log('count')
   if (db) {
     var col = db.collection('counts');
     // Create a document with request IP and current time of request
-    col.insert({ip: req.ip, date: Date.now()}, function(err) {
-      if (err) {
-        console.log('error in insert - ' + err.message)
-      }
-    });
+    col.insert({ip: req.ip, date: Date.now()});
     col.count(function(err, count){
-      res.send("done")
+      res.json('{ "pageCount": ' + count +'}');
     });
   } else {
-    console.log('DB not intialized ')
-    res.send("DB not intialized ")
+    res.json('{ "pageCount": -1 }');
   }
 });
 
@@ -96,10 +90,10 @@ app.post('/count', function (req, res) {
 app.get('/pagecount', function (req, res) {
   if (db) {
     db.collection('counts').count(function(err, count ){
-      res.send('{ pageCount: ' + count +'}');
+      res.json('{ "pageCount": ' + count +'}');
     });
   } else { 
-    res.send('{ pageCount: -1 }');
+    res.json('{ "pageCount": -1 }');
   }
 });
 

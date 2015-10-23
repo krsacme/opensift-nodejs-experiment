@@ -27,6 +27,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#">Snapdeal Openshift Demo</a>
+          <span class="navbar-brand" id="view-count"></span>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
@@ -94,6 +95,10 @@
             type: 'POST',
             url: '/count',
             date: 'viewed'
+          }).done(function(data) {
+            console.log(typeof data)
+            var obj = JSON.parse(data)
+            $('#view-count').append('Views: ' + obj.pageCount)
           })
         })
         function commentsClicked() {
