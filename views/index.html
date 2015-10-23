@@ -106,6 +106,7 @@
           })
 
           $.get('/comment').done(function(data) {
+            var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }
             for (i in data) {
               var d = new Date(data[i].date)
               $('#last-comments').append('<div class="alert alert-info" role="alert">' + 
@@ -116,6 +117,7 @@
             }
           })
         })
+
         function commentsClicked() {
           if ($('#comments').val()) {
             var d = new Date();
