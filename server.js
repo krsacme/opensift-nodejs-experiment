@@ -58,7 +58,7 @@ var initDb = function(callback) {
     dbDetails.type = 'MongoDB';
 
     console.log("Connected to MongoDB at: " + mongoURL);
-    db1.listCollections().toArray(function(err, items) {
+    db.listCollections().toArray(function(err, items) {
       console.log("Collections List Count: " + items.length)
       console.log("Collections List Items: " + items)
     })
