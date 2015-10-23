@@ -100,11 +100,15 @@ app.post('/comment', function(req, res) {
 app.get('/comment', function(req, res) {
   if (db) {
     var col = db.collection('comments');
+    var fields = {
+      'comment': true,
+      'date': true
+    }
     var options = {
       "limit": 10,
       "sort": ["date", 'desc']
     }
-    col.find({}, options, function(err, cursor) {
+    col.find({}, fields, options, function(err, cursor) {
       var arr = [];
       cursor.forEach(function(item) {
         arr.push(item)

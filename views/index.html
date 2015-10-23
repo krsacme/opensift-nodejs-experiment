@@ -104,6 +104,18 @@
             if (obj.pageCount > 0)
               $('#odometer').html(obj.pageCount)
           })
+
+          $.get('/comment').done(function(data) {
+            var obj = JSON.parse(data);
+            for (i in obj) {
+              var d = new Date(obj[i].date)
+              $('#last-comments').append('<div class="alert alert-info" role="alert">' + 
+                obj[i].comment + 
+                '<br>' + 
+                d.toLocaleDateString('en-US', options) + 
+                '</div>')
+            }
+          })
         })
         function commentsClicked() {
           if ($('#comments').val()) {
