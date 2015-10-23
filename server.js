@@ -104,7 +104,7 @@ app.get('/comment', function(req, res) {
       "limit": 10,
       "sort": ["date", 'desc']
     }
-    db.find({}, options, function(err, cursor) {
+    col.find({}, options, function(err, cursor) {
       var arr = [];
       cursor.forEach(function(item) {
         arr.push(item)
