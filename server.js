@@ -90,7 +90,7 @@ app.post('/count', function (req, res) {
 app.post('/comment', function(req, res) {
   if (db) {
     var col = db.collection('comments');
-    db.insert({comment: req.body.comment, date: Date.now(), ip: req.ip})
+    col.insert({comment: req.body.comment, date: Date.now(), ip: req.ip})
     res.end('done')
   } else {
     res.end('DB not intialized')
