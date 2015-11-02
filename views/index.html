@@ -75,7 +75,7 @@
               <input type="text" class="form-control" placeholder="Comments" aria-describedby="basic-addon1" id="comments">
               <br><br>
               <button id="comments-sumbit" type="submit" class="btn btn-default">Submit</button>
-            </div>          
+            </div>
         </div>
       </div>
 
@@ -106,13 +106,15 @@
           })
 
           $.get('/comment').done(function(data) {
+            if (!data instanaceof Array)
+              return
             var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }
             for (i in data) {
               var d = new Date(data[i].date)
-              $('#last-comments').prepend('<div class="alert alert-info" role="alert">' + 
-                data[i].comment + 
-                '<br>' + 
-                d.toLocaleDateString('en-US', options) + 
+              $('#last-comments').prepend('<div class="alert alert-info" role="alert">' +
+                data[i].comment +
+                '<br>' +
+                d.toLocaleDateString('en-US', options) +
                 '</div>')
             }
           })
@@ -134,7 +136,7 @@
           }
         }
     </script>
-    
+
 
 
 
